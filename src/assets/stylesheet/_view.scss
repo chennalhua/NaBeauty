@@ -1,3 +1,27 @@
-hr:not([size]){
+hr:not([size]) {
     height: 1.5px;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+div {
+    font-weight: bolder;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, .6);
+    .spinner-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+    }
 }

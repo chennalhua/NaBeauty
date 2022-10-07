@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/NaBeauty/static/css/main.45da5c2b.css",
-    "main.js": "/NaBeauty/static/js/main.ec023ca5.js",
-    "static/js/787.643dd8c4.chunk.js": "/NaBeauty/static/js/787.643dd8c4.chunk.js",
-    "static/media/logo.png": "/NaBeauty/static/media/logo.dad65a8ce24404572e8d.png",
-    "index.html": "/NaBeauty/index.html",
-    "main.45da5c2b.css.map": "/NaBeauty/static/css/main.45da5c2b.css.map",
-    "main.ec023ca5.js.map": "/NaBeauty/static/js/main.ec023ca5.js.map",
-    "787.643dd8c4.chunk.js.map": "/NaBeauty/static/js/787.643dd8c4.chunk.js.map"
+    "main.css": "/NaMi/static/css/main.87483531.css",
+    "main.js": "/NaMi/static/js/main.d49778b5.js",
+    "static/js/787.643dd8c4.chunk.js": "/NaMi/static/js/787.643dd8c4.chunk.js",
+    "index.html": "/NaMi/index.html",
+    "main.87483531.css.map": "/NaMi/static/css/main.87483531.css.map",
+    "main.d49778b5.js.map": "/NaMi/static/js/main.d49778b5.js.map",
+    "787.643dd8c4.chunk.js.map": "/NaMi/static/js/787.643dd8c4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.45da5c2b.css",
-    "static/js/main.ec023ca5.js"
+    "static/css/main.87483531.css",
+    "static/js/main.d49778b5.js"
   ]
 }

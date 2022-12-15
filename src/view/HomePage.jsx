@@ -20,7 +20,7 @@ const HomePage = () => {
     { itemName: "頭皮療程", fee: "", isHaveFee: "false" },
     { itemName: "頭皮精油", fee: "799", isHaveFee: "true" },
     { itemName: "頭皮SPA", fee: "699", isHaveFee: "true" },
-    { itemName: "修指甲", fee: "", isHaveFee: "false" },
+    { itemName: "頭皮隔離", fee: "200", isHaveFee: "true" },
     { itemName: "上青捲", fee: "", isHaveFee: "false" },
   ];
   //* values

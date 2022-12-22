@@ -10,7 +10,8 @@ const HomePage = () => {
   let serviceItem = [
     { itemName: "洗髮護理", fee: "", isHaveFee: "false" },
     { itemName: "洗髮", fee: "200", isHaveFee: "true" },
-    { itemName: "洗髮卡", fee: "180", isHaveFee: "true" },
+    { itemName: "洗髮卡(180)", fee: "180", isHaveFee: "true" },
+    { itemName: "洗髮卡(1800)", fee: "1800", isHaveFee: "true" },
     { itemName: "剪髮設計", fee: "", isHaveFee: "false" },
     { itemName: "燙髮設計", fee: "", isHaveFee: "false" },
     { itemName: "染髮設計", fee: "", isHaveFee: "false" },
@@ -22,13 +23,14 @@ const HomePage = () => {
     { itemName: "頭皮SPA", fee: "699", isHaveFee: "true" },
     { itemName: "頭皮隔離", fee: "200", isHaveFee: "true" },
     { itemName: "上青捲", fee: "", isHaveFee: "false" },
+    { itemName: "其他", fee: "", isHaveFee: "false" },
   ];
   //* values
   let [personnelData, setPersonnelData] = useState({
-      owner: "",
-      assistant: "",
-      customer: "",
-    }),
+    owner: "",
+    assistant: "",
+    customer: "",
+  }),
     [createServiceItem, setCreateServiceItem] = useState([
       { id: 1, itemName: "", fee: "" },
     ]),
@@ -204,26 +206,28 @@ const HomePage = () => {
                   return (
                     <div className="row g-2 align-items-center">
                       <div className="col-9">
-                        <select
-                          className="form-select"
-                          aria-label="Default select example"
-                          onChange={(e) =>
-                            handleEvent.chooseServiceItem(item.id, e)
-                          }
-                        >
-                          <option selected disabled>
-                            請選擇服務項目
-                          </option>
-                          {serviceItem.map((item, index) => {
-                            return (
-                              <option
-                                value={`${item.itemName}-${item.fee}-${item.isHaveFee}`}
-                              >
-                                {item.itemName}
+                        {
+                            <select
+                              className="form-select"
+                              aria-label="Default select example"
+                              onChange={(e) =>
+                                handleEvent.chooseServiceItem(item.id, e)
+                              }
+                            >
+                              <option selected disabled>
+                                請選擇服務項目
                               </option>
-                            );
-                          })}
-                        </select>
+                              {serviceItem.map((item, index) => {
+                                return (
+                                  <option
+                                    value={`${item.itemName}-${item.fee}-${item.isHaveFee}`}
+                                  >
+                                    {item.itemName}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                        }
                       </div>
                       <div className="col-3 text-end">
                         <div className="d-flex align-items-center">
@@ -242,7 +246,7 @@ const HomePage = () => {
                           >
                             <FontAwesomeIcon
                               icon={faTimes}
-                              style={{fontSize:'18px'}}
+                              style={{ fontSize: '18px' }}
                               className="mx-2 text-danger"
                             />
                           </a>

@@ -10,8 +10,8 @@ const HomePage = () => {
   let serviceItem = [
     { itemName: "洗髮護理", fee: "", isHaveFee: "false" },
     { itemName: "洗髮", fee: "200", isHaveFee: "true" },
-    { itemName: "洗髮卡(180)", fee: "180", isHaveFee: "true" },
-    { itemName: "洗髮卡(1800)", fee: "1800", isHaveFee: "true" },
+    { itemName: "洗髮卡", fee: "180", isHaveFee: "true" },
+    { itemName: "購買洗髮卡", fee: "1800", isHaveFee: "true" },
     { itemName: "剪髮設計", fee: "", isHaveFee: "false" },
     { itemName: "燙髮設計", fee: "", isHaveFee: "false" },
     { itemName: "染髮設計", fee: "", isHaveFee: "false" },

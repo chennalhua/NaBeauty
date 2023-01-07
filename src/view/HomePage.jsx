@@ -27,68 +27,117 @@ const HomePage = () => {
   ];
   //* values
   let [personnelData, setPersonnelData] = useState({
-    owner: "",
-    assistant: "",
-    customer: "",
-  }),
+      owner: "",
+      assistant: "",
+      customer: "",
+    }),
     [createServiceItem, setCreateServiceItem] = useState([
       { id: 1, itemName: "", fee: "" },
     ]),
     [total, setTotal] = useState(0),
     [thisStep, setThisStep] = useState("one"), //one , two
     [isHavePro, setIsHavePro] = useState(false), //是否有購買產品
-    [isLoading, setIsLoading] = useState(false);
-
+    [isLoading, setIsLoading] = useState(false),
+    [createProductItem, setCreateProductItem] = useState([
+      { id: 1, itemName: "", fee: "" },
+    ]);
   function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   const handleEvent = {
-    addItem: function (e) {
+    addItem: function (e, type) {
       e.preventDefault();
-      setCreateServiceItem([
-        ...createServiceItem,
-        { id: getRandom(1, 100), itemName: "", fee: "" },
-      ]);
+      if (type == "service") {
+        setCreateServiceItem([
+          ...createServiceItem,
+          {
+            id: getRandom(1, 100) + createServiceItem.length,
+            itemName: "",
+            fee: "",
+          },
+        ]);
+      } else if (type == "product") {
+        setCreateProductItem([
+          ...createProductItem,
+          {
+            id: getRandom(1, 100) + createServiceItem.length,
+            itemName: "",
+            fee: "",
+          },
+        ]);
+      }
     },
-    delItem: function (e, id) {
+    delItem: function (e, id, type) {
       e.preventDefault();
-      let newAry = [];
-      createServiceItem.map((item, index) => {
-        if (id !== item.id) {
-          newAry.push(item);
-        }
-      });
-      setCreateServiceItem(newAry);
+      if (type == "service") {
+        let newAry = [];
+        createServiceItem.map((item, index) => {
+          if (Number(id) !== Number(item.id)) {
+            newAry.push(item);
+          }
+        });
+        setCreateServiceItem(newAry);
+      } else if (type == "product") {
+        let proAry = [];
+        createProductItem.map((item, index) => {
+          if (Number(id) !== Number(item.id)) {
+            proAry.push(item);
+          }
+        });
+        setCreateProductItem(proAry);
+      }
     },
-    chooseServiceItem: function (id, e) {
+    chooseServiceItem: function (id, e, type) {
       //選擇服務項目
       let { value } = e.target;
-      createServiceItem.map((item, index) => {
-        if (id == item.id) {
-          item.itemName = value.split("-")[0];
-          item.fee = value.split("-")[1];
-          item.isHaveFee = value.split("-")[2];
-        }
-      });
-      setCreateServiceItem([...createServiceItem]);
+      if (type == "service") {
+        createServiceItem.map((item, index) => {
+          if (id == item.id) {
+            item.itemName = value.split("-")[0];
+            item.fee = value.split("-")[1];
+            item.isHaveFee = value.split("-")[2];
+          }
+        });
+        setCreateServiceItem([...createServiceItem]);
+      } else if (type == "product") {
+        createProductItem.map((item, index) => {
+          if (id == item.id) {
+            item.itemName = value;
+          }
+        });
+        setCreateProductItem([...createProductItem]);
+      }
     },
-    setFee: function (id, e) {
+    setFee: function (id, e, type) {
       //設定價錢
       let { value } = e.target;
-      createServiceItem.map((item, index) => {
-        if (id == item.id) {
-          item.fee = value;
-        }
-      });
-      setCreateServiceItem([...createServiceItem]);
+      if (type == "service") {
+        createServiceItem.map((item, index) => {
+          if (id == item.id) {
+            item.fee = value;
+          }
+        });
+        setCreateServiceItem([...createServiceItem]);
+      } else if (type == "product") {
+        createProductItem.map((item, index) => {
+          if (id == item.id) {
+            item.fee = value;
+          }
+        });
+        setCreateProductItem([...createProductItem]);
+      }
     },
     calTotal: function () {
       //計算總數
       let num = 0;
+      let proNum = 0;
       createServiceItem.map((item, index) => {
         num += Number(item.fee);
       });
-      setTotal(num);
+      createProductItem.map((item, index) => {
+        proNum += Number(item.fee);
+      });
+      setTotal(num + proNum);
     },
     printEvent: function () {
       var text = document.getElementById("printPage");
@@ -102,11 +151,10 @@ const HomePage = () => {
     },
   };
 
-  useEffect(() => {
-  }, [isHavePro, isLoading]);
+  useEffect(() => {}, [isHavePro, isLoading, createProductItem]);
   useEffect(() => {
     handleEvent.calTotal();
-  }, [createServiceItem, total]);
+  }, [createServiceItem, total, createProductItem]);
   return (
     <>
       <Loading isLoading={isLoading} />
@@ -207,26 +255,30 @@ const HomePage = () => {
                     <div className="row g-2 align-items-center">
                       <div className="col-9">
                         {
-                            <select
-                              className="form-select"
-                              aria-label="Default select example"
-                              onChange={(e) =>
-                                handleEvent.chooseServiceItem(item.id, e)
-                              }
-                            >
-                              <option selected disabled>
-                                請選擇服務項目
-                              </option>
-                              {serviceItem.map((item, index) => {
-                                return (
-                                  <option
-                                    value={`${item.itemName}-${item.fee}-${item.isHaveFee}`}
-                                  >
-                                    {item.itemName}
-                                  </option>
-                                );
-                              })}
-                            </select>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            onChange={(e) =>
+                              handleEvent.chooseServiceItem(
+                                item.id,
+                                e,
+                                "service"
+                              )
+                            }
+                          >
+                            <option selected disabled>
+                              請選擇服務項目
+                            </option>
+                            {serviceItem.map((item, index) => {
+                              return (
+                                <option
+                                  value={`${item.itemName}-${item.fee}-${item.isHaveFee}`}
+                                >
+                                  {item.itemName}
+                                </option>
+                              );
+                            })}
+                          </select>
                         }
                       </div>
                       <div className="col-3 text-end">
@@ -235,18 +287,22 @@ const HomePage = () => {
                             <input
                               type="text"
                               className="form-control text-end fw-bolder"
-                              onChange={(e) => handleEvent.setFee(item.id, e)}
+                              onChange={(e) =>
+                                handleEvent.setFee(item.id, e, "service")
+                              }
                             />
                           ) : (
                             <p className="m-0">{toCurrency(item.fee)}</p>
                           )}
                           <a
                             href="#"
-                            onClick={(e) => handleEvent.delItem(e, item.id)}
+                            onClick={(e) =>
+                              handleEvent.delItem(e, item.id, "service")
+                            }
                           >
                             <FontAwesomeIcon
                               icon={faTimes}
-                              style={{ fontSize: '18px' }}
+                              style={{ fontSize: "18px" }}
                               className="mx-2 text-danger"
                             />
                           </a>
@@ -258,7 +314,7 @@ const HomePage = () => {
                 <a
                   href="#"
                   className="text-center fs-5 text-primary py-3"
-                  onClick={handleEvent.addItem}
+                  onClick={(e) => handleEvent.addItem(e, "service")}
                 >
                   <FontAwesomeIcon icon={faPlusCircle} />
                 </a>
@@ -273,9 +329,20 @@ const HomePage = () => {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault1"
-                        onClick={(e) => setIsHavePro(true)}
+                        onClick={(e) => (
+                          setIsHavePro(true),
+                          createProductItem.length == 0 &&
+                            setCreateProductItem([
+                              ...createProductItem,
+                              { id: 1, itemName: "", fee: "" },
+                            ])
+                        )}
+                        checked={isHavePro && "checked"}
                       />
-                      <label class="form-check-label" for="flexRadioDefault1">
+                      <label
+                        class="form-check-label"
+                        htmlFor="flexRadioDefault1"
+                      >
                         是
                       </label>
                     </div>
@@ -285,15 +352,77 @@ const HomePage = () => {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
-                        checked
-                        onClick={(e) => setIsHavePro(false)}
+                        onClick={(e) => (
+                          setIsHavePro(false), setCreateProductItem([])
+                        )}
+                        checked={isHavePro == false && "checked"}
                       />
-                      <label class="form-check-label" for="flexRadioDefault2">
+                      <label
+                        class="form-check-label"
+                        htmlFor="flexRadioDefault2"
+                      >
                         否
                       </label>
                     </div>
                   </div>
                 </div>
+                {isHavePro && (
+                  <div className="my-2">
+                    {createProductItem.map((item, index) => {
+                      return (
+                        <div className="row g-2 align-items-center mb-2">
+                          <div className="col-9">
+                            {
+                              <input
+                                type="text"
+                                className="form-control fw-bolder"
+                                onChange={(e) =>
+                                  handleEvent.chooseServiceItem(
+                                    item.id,
+                                    e,
+                                    "product"
+                                  )
+                                }
+                              />
+                            }
+                          </div>
+                          <div className="col-3 text-end">
+                            <div className="d-flex align-items-center">
+                              <input
+                                type="text"
+                                className="form-control text-end fw-bolder"
+                                onChange={(e) =>
+                                  handleEvent.setFee(item.id, e, "product")
+                                }
+                              />
+                              <a
+                                href="#"
+                                onClick={(e) =>
+                                  handleEvent.delItem(e, item.id, "product")
+                                }
+                              >
+                                <FontAwesomeIcon
+                                  icon={faTimes}
+                                  style={{ fontSize: "18px" }}
+                                  className="mx-2 text-danger"
+                                />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <div className="text-center mt-2">
+                      <a
+                        href="#"
+                        className="text-center fs-5 text-primary py-3"
+                        onClick={(e) => handleEvent.addItem(e, "product")}
+                      >
+                        <FontAwesomeIcon icon={faPlusCircle} />
+                      </a>
+                    </div>
+                  </div>
+                )}
                 <hr />
                 <div className="pb-3">
                   <div className="d-flex justify-content-between fw-bolder">
@@ -318,17 +447,37 @@ const HomePage = () => {
                   <p className="m-0">助理：{personnelData.assistant}</p>
                   <p className="m-0">顧客：{personnelData.customer}</p>
                 </div>
-                <ul className="mt-2 border-2 border-top pt-2">
-                  {createServiceItem.map((item, index) => {
-                    return (
-                      <li className="d-flex justify-content-between">
-                        <p>◆ {item.itemName}</p>
-                        <p>{toCurrency(item.fee)}</p>
-                      </li>
-                    );
-                  })}
-                </ul>
-                {isHavePro && <div style={{ height: "200px" }}></div>}
+                <div>
+                  <ul className="mt-2 border-2 border-top pt-2 list-unstyled">
+                    <li className="small" style={{ fontSize: "18px" }}>
+                      服務：
+                    </li>
+                    {createServiceItem.map((item, index) => {
+                      return (
+                        <li className="d-flex justify-content-between">
+                          <p>◆ {item.itemName}</p>
+                          <p>{toCurrency(item.fee)}</p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div>
+                  <ul className="mt-2 border-2 border-top pt-2 list-unstyled">
+                    <li className="small" style={{ fontSize: "18px" }}>
+                      產品：
+                    </li>
+                    {createProductItem.map((item, index) => {
+                      return (
+                        <li className="d-flex justify-content-between">
+                          <p>◆ {item.itemName}</p>
+                          <p>{toCurrency(item.fee)}</p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                {isHavePro && <div style={{ height: "150px" }}></div>}
                 {/* <hr /> */}
                 <div className="d-flex justify-content-between border-2 border-top pt-2">
                   <p>小計</p>

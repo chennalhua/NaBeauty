@@ -27,10 +27,10 @@ const HomePage = () => {
   ];
   //* values
   let [personnelData, setPersonnelData] = useState({
-      owner: "",
-      assistant: "",
-      customer: "",
-    }),
+    owner: "",
+    assistant: "",
+    customer: "",
+  }),
     [createServiceItem, setCreateServiceItem] = useState([
       { id: 1, itemName: "", fee: "" },
     ]),
@@ -151,7 +151,7 @@ const HomePage = () => {
     },
   };
 
-  useEffect(() => {}, [isHavePro, isLoading, createProductItem]);
+  useEffect(() => { }, [isHavePro, isLoading, createProductItem]);
   useEffect(() => {
     handleEvent.calTotal();
   }, [createServiceItem, total, createProductItem]);
@@ -332,10 +332,10 @@ const HomePage = () => {
                         onClick={(e) => (
                           setIsHavePro(true),
                           createProductItem.length == 0 &&
-                            setCreateProductItem([
-                              ...createProductItem,
-                              { id: 1, itemName: "", fee: "" },
-                            ])
+                          setCreateProductItem([
+                            ...createProductItem,
+                            { id: 1, itemName: "", fee: "" },
+                          ])
                         )}
                         checked={isHavePro && "checked"}
                       />
@@ -467,14 +467,17 @@ const HomePage = () => {
                     <li className="small" style={{ fontSize: "18px" }}>
                       產品：
                     </li>
-                    {createProductItem.map((item, index) => {
-                      return (
-                        <li className="d-flex justify-content-between">
-                          <p>◆ {item.itemName}</p>
-                          <p>{toCurrency(item.fee)}</p>
-                        </li>
-                      );
-                    })}
+                    {
+                      isHavePro == true &&
+                      createProductItem.map((item, index) => {
+                        return (
+                          <li className="d-flex justify-content-between">
+                            <p>◆ {item.itemName}</p>
+                            <p>{toCurrency(item.fee)}</p>
+                          </li>
+                        );
+                      })
+                    }
                   </ul>
                 </div>
                 {isHavePro && <div style={{ height: "150px" }}></div>}

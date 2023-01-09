@@ -462,24 +462,26 @@ const HomePage = () => {
                     })}
                   </ul>
                 </div>
-                <div>
-                  <ul className="mt-2 border-2 border-top pt-2 list-unstyled">
-                    <li className="small" style={{ fontSize: "18px" }}>
-                      產品：
-                    </li>
-                    {
-                      isHavePro == true &&
-                      createProductItem.map((item, index) => {
-                        return (
-                          <li className="d-flex justify-content-between">
-                            <p>◆ {item.itemName}</p>
-                            <p>{toCurrency(item.fee)}</p>
-                          </li>
-                        );
-                      })
-                    }
-                  </ul>
-                </div>
+                {
+                  isHavePro == true &&
+                  <div>
+                    <ul className="mt-2 border-2 border-top pt-2 list-unstyled">
+                      <li className="small" style={{ fontSize: "18px" }}>
+                        產品：
+                      </li>
+                      {
+                        createProductItem.map((item, index) => {
+                          return (
+                            <li className="d-flex justify-content-between">
+                              <p>◆ {item.itemName}</p>
+                              <p>{toCurrency(item.fee)}</p>
+                            </li>
+                          );
+                        })
+                      }
+                    </ul>
+                  </div>
+                }
                 {isHavePro && <div style={{ height: "150px" }}></div>}
                 {/* <hr /> */}
                 <div className="d-flex justify-content-between border-2 border-top pt-2">

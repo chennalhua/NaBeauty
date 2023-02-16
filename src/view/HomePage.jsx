@@ -482,7 +482,7 @@ const HomePage = () => {
                     </ul>
                   </div>
                 }
-                {isHavePro && <div style={{ height: "150px" }}></div>}
+                {isHavePro && <div style={{ height: "0px" }}></div>}
                 {/* <hr /> */}
                 <div className="d-flex justify-content-between border-2 border-top pt-2">
                   <p>小計</p>

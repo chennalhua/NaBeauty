@@ -6,7 +6,7 @@ import { toCurrency } from "../assets/javascript/functionTool";
 import Loading from "./Loading";
 const HomePage = () => {
   let designerList = ["Annie", "Eric"];
-  let assistantList = ["貞燕", "毓君"];
+  let assistantList = ["毓君"];
   let serviceItem = [
     { itemName: "洗髮護理", fee: "", isHaveFee: "false" },
     { itemName: "洗髮", fee: "200", isHaveFee: "true" },

@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { toCurrency } from "../assets/javascript/functionTool";
 import Loading from "./Loading";
+import axios from 'axios'
 const HomePage = () => {
-  let designerList = ["Annie", "Eric"];
-  let assistantList = ["毓君","怡蓁"];
+  let [designerList, setDesignerList] = useState([])
+  let [assistantList, setAssistantList] = useState([])
   let serviceItem = [
     { itemName: "洗髮護理", fee: "", isHaveFee: "false" },
     { itemName: "洗髮", fee: "200", isHaveFee: "true" },
@@ -44,6 +45,26 @@ const HomePage = () => {
   function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+  const handleAPI = {
+    getList: function () {
+      let API = `https://script.google.com/macros/s/AKfycbykcgBn6-0HNhruz9Ynt2RRWhEg-2c1dj7bahvYEuep4WvDZCgPIsjf-LAVirpXYt6P1A/exec`
+      setIsLoading(true)
+      axios.get(API)
+        .then((res) => {
+          setIsLoading(false)
+          setDesignerList(res.data.design)
+          setAssistantList(res.data.assistant)
+        })
+        .catch((err) => {
+          alert('出現這個請通知"華姐"，抓取之前舊檔。')
+          setIsLoading(false)
+          setDesignerList(["Annie", "Eric"])
+          setAssistantList(["毓君", "怡蓁"])
+        })
+    }
+  }
+
   const handleEvent = {
     addItem: function (e, type) {
       e.preventDefault();
@@ -151,7 +172,12 @@ const HomePage = () => {
     },
   };
 
-  useEffect(() => { }, [isHavePro, isLoading, createProductItem]);
+  useEffect(() => {
+
+    handleAPI.getList()
+  }, [])
+
+  useEffect(() => { }, [isHavePro, isLoading, createProductItem, designerList, assistantList]);
   useEffect(() => {
     handleEvent.calTotal();
   }, [createServiceItem, total, createProductItem]);

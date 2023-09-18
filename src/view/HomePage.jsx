@@ -57,10 +57,10 @@ const HomePage = () => {
           setAssistantList(res.data.assistant)
         })
         .catch((err) => {
-          alert('出現這個請通知"華姐"，抓取之前舊檔。')
+          alert('通知管理員')
           setIsLoading(false)
           setDesignerList(["Annie", "Eric"])
-          setAssistantList(["毓君", "怡蓁"])
+          setAssistantList(["毓君"])
         })
     }
   }
